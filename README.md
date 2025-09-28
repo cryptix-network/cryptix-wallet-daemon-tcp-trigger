@@ -10,6 +10,17 @@ Enables automatic generation of wallet addresses, sending coins, broadcasting, a
 4. Start the TCP Script
 5. Send Command via TCP to the Script
 
+### Commands
+Check Wallet Version
+Query External UTXOs
+Broadcast Transaction
+Sign Transaction
+Create Unsigned Transaction
+Send Coins
+Show All Addresses
+Generate New Address
+Check Balance
+
 
 ### Examples
 
