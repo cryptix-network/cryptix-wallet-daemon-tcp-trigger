@@ -71,4 +71,6 @@ CPAY Wallet Trigger listening on 127.0.0.1:9092
   ]
 }
 
+##### Licence
+May be used freely by anyone but use is restricted to the Cryptix Network / CPAY only.
 
