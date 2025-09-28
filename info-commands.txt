@@ -1,0 +1,228 @@
+
+- Information the password must always be sent first in the TCP command
+- Example: trigger_password_123 balance
+
+
+### Linux (Bash + netcat)
+
+# -------------------------
+# Check Balance
+# -------------------------
+echo "$PASSWORD balance" | nc $HOST $PORT
+
+# -------------------------
+# Generate New Address
+# -------------------------
+echo "$PASSWORD new_address" | nc $HOST $PORT
+
+# -------------------------
+# Show All Addresses
+# -------------------------
+echo "$PASSWORD show_addresses" | nc $HOST $PORT
+
+# -------------------------
+# Send Coins
+# Usage: send <to_address> <amount> [password]
+# -------------------------
+echo "$PASSWORD send CPAY_ADDRESS 0.1 mypassword" | nc $HOST $PORT
+
+# -------------------------
+# Create Unsigned Transaction
+# Usage: unsigned <to_address> <amount>
+# -------------------------
+echo "$PASSWORD unsigned CPAY_ADDRESS 0.05" | nc $HOST $PORT
+
+# -------------------------
+# Sign Transaction
+# Usage: sign [password]
+# -------------------------
+echo "$PASSWORD sign mypassword" | nc $HOST $PORT
+
+# -------------------------
+# Broadcast Transaction
+# -------------------------
+echo "$PASSWORD broadcast" | nc $HOST $PORT
+
+# -------------------------
+# Broadcast Replacement Transaction
+# -------------------------
+echo "$PASSWORD broadcast_replace" | nc $HOST $PORT
+
+# -------------------------
+# Query External UTXOs
+# Usage: external_utxos <address>
+# -------------------------
+echo "$PASSWORD external_utxos CPAY_ADDRESS" | nc $HOST $PORT
+
+# -------------------------
+# Bump Fee
+# Usage: bump_fee <txid>
+# -------------------------
+echo "$PASSWORD bump_fee TX_ID_HERE" | nc $HOST $PORT
+
+# -------------------------
+# Check Wallet Version
+# -------------------------
+echo "$PASSWORD version" | nc $HOST $PORT
+
+# -------------------------
+# Shutdown Wallet
+# -------------------------
+echo "$PASSWORD shutdown" | nc $HOST $PORT
+
+
+
+### Windows (Powershell)
+
+# -------------------------
+# Check Balance
+# -------------------------
+$tcp = New-Object System.Net.Sockets.TcpClient('127.0.0.1', 9092)
+$stream = $tcp.GetStream()
+$writer = New-Object System.IO.StreamWriter($stream)
+$writer.AutoFlush = $true
+
+$writer.WriteLine("trigger_password_123 balance")
+$reader = New-Object System.IO.StreamReader($stream)
+$reader.ReadLine()  
+
+$writer.Close()
+$reader.Close()
+$tcp.Close()
+
+
+# -------------------------
+# Generate New Address
+# -------------------------
+$tcp = New-Object System.Net.Sockets.TcpClient('127.0.0.1', 9092)
+$stream = $tcp.GetStream()
+$writer = New-Object System.IO.StreamWriter($stream)
+$writer.AutoFlush = $true
+
+$writer.WriteLine("trigger_password_123 new_address")
+$reader = New-Object System.IO.StreamReader($stream)
+$reader.ReadLine() 
+
+$writer.Close()
+$reader.Close()
+$tcp.Close()
+
+
+# -------------------------
+# Show All Addresses
+# -------------------------
+$tcp = New-Object System.Net.Sockets.TcpClient('127.0.0.1', 9092)
+$stream = $tcp.GetStream()
+$writer = New-Object System.IO.StreamWriter($stream)
+$writer.AutoFlush = $true
+
+$writer.WriteLine("trigger_password_123 show_addresses")
+$reader = New-Object System.IO.StreamReader($stream)
+$reader.ReadLine()  
+
+$writer.Close()
+$reader.Close()
+$tcp.Close()
+
+
+# -------------------------
+# Send Coins
+# -------------------------
+$tcp = New-Object System.Net.Sockets.TcpClient('127.0.0.1', 9092)
+$stream = $tcp.GetStream()
+$writer = New-Object System.IO.StreamWriter($stream)
+$writer.AutoFlush = $true
+
+# Example: send <to_address> <amount> [password]
+$writer.WriteLine("trigger_password_123 send CPAY_ADDRESS 0.1 mypassword")
+$reader = New-Object System.IO.StreamReader($stream)
+$reader.ReadLine()  
+
+$writer.Close()
+$reader.Close()
+$tcp.Close()
+
+
+# -------------------------
+# Create Unsigned Transaction
+# -------------------------
+$writer.WriteLine("trigger_password_123 unsigned CPAY_ADDRESS 0.05")
+
+# -------------------------
+# Sign Transaction
+# -------------------------
+$writer.WriteLine("trigger_password_123 sign mypassword")
+
+# -------------------------
+# Broadcast Transaction
+# -------------------------
+$writer.WriteLine("trigger_password_123 broadcast")
+
+# -------------------------
+# Query External UTXOs
+# -------------------------
+$writer.WriteLine("trigger_password_123 external_utxos CPAY_ADDRESS")
+
+# -------------------------
+# Check Wallet Version
+# -------------------------
+$writer.WriteLine("trigger_password_123 version")
+
+
+
+
+# -------------------------
+# Returns Json answers
+# -------------------------
+CPAY Wallet Trigger listening on 127.0.0.1:9092
+
+
+[Trigger] Queued command: balance
+{
+  "available": 10.0,
+  "pending": 0.0,
+  "addresses": [
+    {
+      "address": "cryptix:qp3evkuaxr4nmf99w2894sk86z3zfc5v396fsk8pd6pxw8s2vws5ggvvnwv04",
+      "available": 10.0,
+      "pending": 0.0
+    }
+  ]
+}
+
+
+[Trigger] Queued command: new_address
+{
+  "new_address": "cryptix:qram6h4jstelh5g7wnydua59046nrw2353keva5ehdjqm0ddzutns73np8vsa"
+}
+
+
+[Trigger] Queued command: show_addresses
+{
+  "addresses": [
+    "cryptix:qp3evkuaxr4nmf99w2894sk86z3zfc5v396fsk8pd6pxw8s2vws5ggvvnwv04",
+    "cryptix:qqn8jumslwf4s05pq8f55whv54gudhfml8z8d6gn00xwrcumuqj8zeqs87whz",
+    "cryptix:qzdh0ustdxe29qjud4ukhgd2yx93c4akvr5lw49gkg0l206xhnhvk32tty25x",
+    "cryptix:qzhdupxe04crccku3rrec9qts4g3xzlvpmtxvuje9282jfcvhk6kjd2068q28",
+    "cryptix:qram6h4jstelh5g7wnydua59046nrw2353keva5ehdjqm0ddzutns73np8vsa" 
+  ]
+}
+
+
+#### Python Example to connect:
+
+import socket
+
+HOST = "127.0.0.1"
+PORT = 9092
+PASSWORD = "trigger_password_123"
+
+def send_command(command):
+    with socket.create_connection((HOST, PORT)) as sock:
+        sock.sendall(f"{PASSWORD} {command}\n".encode())
+        response = sock.recv(4096)
+        print(response.decode())
+
+send_command("show_addresses")
+send_command("version")
+send_command("send CPAY_ADDRESS 0.1 mypassword")
