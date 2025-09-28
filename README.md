@@ -12,13 +12,21 @@ Enables automatic generation of wallet addresses, sending coins, broadcasting, a
 
 ### Commands
 Check Wallet Version
+
 Query External UTXOs
+
 Broadcast Transaction
+
 Sign Transaction
+
 Create Unsigned Transaction
+
 Send Coins
+
 Show All Addresses
+
 Generate New Address
+
 Check Balance
 
 
