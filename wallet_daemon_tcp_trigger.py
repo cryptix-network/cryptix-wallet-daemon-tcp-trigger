@@ -38,7 +38,7 @@ MIN_TX_INTERVAL = 10
 
 # Input Validation
 ADDRESS_REGEX = re.compile(r"^[A-Za-z0-9\.:]{10,128}$")
-ALLOWED_CHARS_REGEX = re.compile(r"^[A-Za-z0-9\s_\-\.]+$")
+ALLOWED_CHARS_REGEX = re.compile(r"^[A-Za-z0-9\s_\-:\.]+$")
 
 # -------------------------
 # Helper function for serial sending
@@ -225,17 +225,18 @@ def process_command(wallet: CPAYWalletClient, command: str):
                 response = {"error": resp}
             else:
                 response = {
-                    "available": float(sompi_to_cpay(resp.available)),
-                    "pending": float(sompi_to_cpay(resp.pending)),
+                    "available": f"{sompi_to_cpay(resp.available):.8f}",
+                    "pending": f"{sompi_to_cpay(resp.pending):.8f}",
                     "addresses": [
                         {
                             "address": addr.address,
-                            "available": float(sompi_to_cpay(addr.available)),
-                            "pending": float(sompi_to_cpay(addr.pending))
+                            "available": f"{sompi_to_cpay(addr.available):.8f}",
+                            "pending": f"{sompi_to_cpay(addr.pending):.8f}"
                         }
                         for addr in getattr(resp, "addressBalances", [])
                     ]
                 }
+
 
         elif cmd == "new_address":
             resp = wallet.new_address()
@@ -355,7 +356,7 @@ def process_command(wallet: CPAYWalletClient, command: str):
                 else:
                     response = {
                         "utxos": [
-                            {"address": e.address, "amount": float(sompi_to_cpay(e.utxoEntry.amount))}
+                            {"address": e.address, "amount": f"{sompi_to_cpay(e.utxoEntry.amount):.8f}"}
                             for e in resp.Entries
                         ]
                     }
