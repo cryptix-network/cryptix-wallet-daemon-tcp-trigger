@@ -37,8 +37,8 @@ tx_lock = threading.Lock()
 MIN_TX_INTERVAL = 10 
 
 # Input Validation
-ADDRESS_REGEX = re.compile(r"^[A-Za-z0-9\.:]{10,128}$")
-ALLOWED_CHARS_REGEX = re.compile(r"^[A-Za-z0-9\s_\-:\.]+$")
+ADDRESS_REGEX = re.compile(r"^[A-Za-z0-9_\.:]{10,128}$")
+ALLOWED_CHARS_REGEX = re.compile(r"^[A-Za-z0-9\s_\-:\.!]+$")
 
 # -------------------------
 # Helper function for serial sending
@@ -190,10 +190,6 @@ signed_transactions_list = []
 
 command_queue = queue.Queue()
 queue_lock = threading.Lock()
-
-import re
-
-ADDRESS_REGEX = re.compile(r"^[A-Za-z0-9\.]{32,64}$")
 
 def parse_and_validate_amount(amount_str):
     try:
